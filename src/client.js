@@ -6,8 +6,19 @@ import ZMQ from 'zmq';
 import UUID from 'uuid';
 import Validator from './validator';
 
+import Base from './client/discovery/base';
+import Localhost from './client/discovery/localhost';
+import Quadra from './client/discovery/quadra';
+
+export Base;
+export Localhost;
+export Quadra;
+
 export default class Client {
-  constructor() {
+  constructor(discoverer) {
+    discoverer.watch();
+    this._discoverer = discoverer;
+
     this._requests = new Map();
     this._socket = this._createSocket();
   }
@@ -18,6 +29,10 @@ export default class Client {
 
   get socket() {
     return this._socket;
+  }
+
+  get discoverer() {
+    return this._discoverer;
   }
 
   receive(packedPayload) {
