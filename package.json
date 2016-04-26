@@ -2,7 +2,7 @@
   "name": "kraken-transport",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "babel src -d lib",
     "lint": "eslint src/ test/*.test.js",

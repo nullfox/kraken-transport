@@ -10,8 +10,6 @@ import Base from './client/discovery/base';
 import Localhost from './client/discovery/localhost';
 import Quadra from './client/discovery/quadra';
 
-export const Discovery = { Base, Localhost, Quadra };
-
 export default class Client {
   constructor(discoverer) {
     discoverer.watch();
@@ -100,3 +98,5 @@ export default class Client {
     return socket;
   }
 }
+
+Client.Discovery = { Base, Quadra, Localhost };
