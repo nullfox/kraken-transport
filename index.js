@@ -1,5 +1,4 @@
-import Client from './lib/client';
-import Worker from './lib/worker';
-
-export Client;
-export Worker;
+module.exports = {
+  Client: require('./lib/client'),
+  Worker: require('./lib/worker')
+};
