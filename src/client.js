@@ -10,9 +10,7 @@ import Base from './client/discovery/base';
 import Localhost from './client/discovery/localhost';
 import Quadra from './client/discovery/quadra';
 
-export Base;
-export Localhost;
-export Quadra;
+export const Discovery = { Base, Localhost, Quadra };
 
 export default class Client {
   constructor(discoverer) {
