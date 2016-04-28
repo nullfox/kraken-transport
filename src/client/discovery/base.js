@@ -3,7 +3,7 @@ import Bluebird from 'bluebird';
 export default class Base {
   constructor() {
     this._hosts = [];
-    this._interval;
+    this._interval = false;
   }
 
   get hosts() {
@@ -27,6 +27,8 @@ export default class Base {
       clearInterval(this._interval);
     }
 
+    this.discover();
+
     this._interval = setInterval(this.discover.bind(this), 2500);
   }
-};
+}
