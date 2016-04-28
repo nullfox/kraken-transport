@@ -1,13 +1,13 @@
 {
   "name": "@nullfox/kraken-transport",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src -d lib",
     "lint": "eslint src/ test/*.test.js",
     "test": "mocha --compilers js:babel-register",
-    "postinstall": "npm run build"
+    "prepublish": "npm run build"
   },
   "author": "",
   "license": "ISC",
