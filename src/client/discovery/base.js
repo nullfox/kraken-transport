@@ -1,7 +1,16 @@
+import { EventEmitter } from 'events';
+import Util from 'util';
+import _ from 'lodash';
 import Bluebird from 'bluebird';
 
-export default class Base {
+export default class Base extends EventEmitter {
+  static isAvailable() {
+    return true;
+  }
+
   constructor() {
+    super();
+
     this._hosts = [];
     this._interval = false;
   }
@@ -17,8 +26,23 @@ export default class Base {
   discover() {
     return Bluebird.resolve()
     .then(() => this.run())
-    .then((hosts) => {
-      this._hosts = hosts;
+    .then((newHosts) => {
+      const removedHosts = [];
+
+      _.difference(this.hosts, newHosts).forEach((host) => {
+        removedHosts.push(host);
+      });
+
+      this._hosts = _.without(this.hosts.concat(newHosts), removedHosts);
+
+      return {
+        found: newHosts,
+        gone: removedHosts,
+        current: this.hosts
+      };
+    })
+    .tap((hosts) => {
+      this.emit('update', hosts);
     });
   }
 

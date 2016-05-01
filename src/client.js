@@ -12,8 +12,11 @@ import Quadra from './client/discovery/quadra';
 
 export default class Client {
   constructor(discoverer) {
-    discoverer.watch();
-    this._discoverer = discoverer;
+    if (discoverer) {
+      discoverer.watch();
+      discoverer.on('update', this.updateHosts.bind(this));
+      this._discoverer = discoverer;
+    }
 
     this._requests = new Map();
     this._socket = this._createSocket();
@@ -87,12 +90,21 @@ export default class Client {
     return this.socket.sendAsync(Msgpack.pack(payload));
   }
 
+  updateHosts(hosts) {
+    hosts.gone.forEach((host) => {
+      this.socket.disconnect(host);
+    });
+
+    hosts.found.forEach((host) => {
+      this.socket.connect(host);
+    });
+  }
+
   _createSocket() {
     const socket = ZMQ.socket('dealer');
     Bluebird.promisifyAll(socket);
 
     socket.identity = UUID.v4();
-    socket.connect('tcp://localhost:5671');
     socket.on('message', this.receive.bind(this));
 
     return socket;

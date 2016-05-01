@@ -5,6 +5,10 @@ import request from 'request';
 import Base from './base';
 
 export default class Quadra extends Base {
+  static isAvailable() {
+    return process.env.QUADRA_CONSUL_HOST && process.env.BACKEND_POOL;
+  }
+
   constructor() {
     super();
 
